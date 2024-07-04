@@ -29,7 +29,6 @@ const auth = new google.auth.GoogleAuth({
 app.use(bodyParser.json());
 app.use(cors());
 
-// Ruta para obtener datos de la hoja específica
 router.post('/getEntrantePregradoData', async (req, res) => {
   try {
     const authClient = await auth.getClient();
@@ -47,12 +46,11 @@ router.post('/getEntrantePregradoData', async (req, res) => {
       data: sheetValuesToObject(response.data.values),
     });
   } catch (error) {
-    console.log('error', error);
+    console.error('Error al obtener datos:', error);
     res.status(400).json({ status: false, error: 'Error en la conexión' });
   }
 });
 
-// Ruta para insertar datos en la hoja específica
 router.post('/sendEntrantePregradoData', async (req, res) => {
   try {
     const { insertData } = req.body;
@@ -85,7 +83,7 @@ router.post('/sendEntrantePregradoData', async (req, res) => {
       return res.status(400).json({ error: 'No se insertó', status: false });
     }
   } catch (error) {
-    console.error('Error en la conexión:', error);
+    console.error('Error al insertar datos:', error);
     return res.status(400).json({ error: 'Error en la conexión', status: false });
   }
 });
