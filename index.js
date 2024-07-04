@@ -10,6 +10,11 @@ const app = express();
 const router = express.Router();
 const PORT = process.env.PORT || 3001;
 
+// Comprobaciones adicionales para asegurar que las variables de entorno estén definidas
+if (!process.env.private_key) {
+  throw new Error('Missing private_key in environment variables');
+}
+
 const privateKey = process.env.private_key.replace(/\\n/g, '\n');
 
 const auth = new google.auth.GoogleAuth({
