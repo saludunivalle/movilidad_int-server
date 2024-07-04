@@ -7,7 +7,6 @@ const { config } = require('dotenv');
 config();
 
 const app = express();
-const router = express.Router();
 const PORT = process.env.PORT || 3001;
 
 // Comprobaciones adicionales para asegurar que las variables de entorno estén definidas
@@ -36,7 +35,13 @@ const auth = new google.auth.GoogleAuth({
 app.use(bodyParser.json());
 app.use(cors());
 
-router.post('/getEntrantePregradoData', async (req, res) => {
+// Ruta para la raíz
+app.get('/', (req, res) => {
+  res.send('Servidor funcionando correctamente');
+});
+
+// Ruta para obtener datos de la hoja específica
+app.post('/getEntrantePregradoData', async (req, res) => {
   try {
     const authClient = await auth.getClient();
     const sheets = google.sheets({ version: 'v4', auth: authClient });
@@ -58,7 +63,8 @@ router.post('/getEntrantePregradoData', async (req, res) => {
   }
 });
 
-router.post('/sendEntrantePregradoData', async (req, res) => {
+// Ruta para insertar datos en la hoja específica
+app.post('/sendEntrantePregradoData', async (req, res) => {
   try {
     const { insertData } = req.body;
     const authClient = await auth.getClient();
@@ -94,8 +100,6 @@ router.post('/sendEntrantePregradoData', async (req, res) => {
     return res.status(400).json({ error: 'Error en la conexión', status: false });
   }
 });
-
-app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Servidor backend escuchando en el puerto ${PORT}`);
