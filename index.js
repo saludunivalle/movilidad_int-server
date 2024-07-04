@@ -45,8 +45,8 @@ app.post('/getEntrantePregradoData', async (req, res) => {
   try {
     const authClient = await auth.getClient();
     const sheets = google.sheets({ version: 'v4', auth: authClient });
-    const spreadsheetId = '15IlZdhAnBikcpG-lkkFqu0vJLhNTMrWsCI5hxWgt3LI';
-    const range = 'ENTRANTE - PREGRADO!A1:Z1000';
+    const spreadsheetId = '1PQolLCah71ChTuqq2O_dQCeMIMNNu_Xsyj2m49lnnhQ';
+    const range = 'ENTRANTE - PREGRADO!D1:Z1000';
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
